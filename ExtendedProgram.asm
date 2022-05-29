@@ -1,15 +1,3 @@
-; [org 0x7e00]
-
-; mov bx, ExtendedSpaceSuccess
-; call PrintString
-
-; jmp $
-
-; %include "print.asm"
-
-; ExtendedSpaceSuccess:
-;     
-
 [org 0x7e00]
 
 mov bx, ExtendedSpaceSuccess
