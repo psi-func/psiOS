@@ -1,5 +1,5 @@
-run: runnable.flp
-	qemu-system-x86_64 $^
+run: clean runnable.flp 
+	qemu-system-x86_64 runnable.flp
 
 boot: boot.bin
 	qemu-system-x86_64 $^
@@ -15,7 +15,6 @@ boot.bin: boot.asm
 ExtendedProgram.bin: ExtendedProgram.asm
 	rm -f $@
 	nasm -f bin $^ -o $@
-
 
 clean:
 	rm -f *.bin *.flp
