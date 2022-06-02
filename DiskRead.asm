@@ -1,9 +1,9 @@
-PROGRAM_SPACE equ 0x7e00
+PROGRAM_SPACE equ 0x8000
 
 ReadDisk:
     mov ah, 0x02 ; cmd
     mov bx, PROGRAM_SPACE ; where to load them? es * 16 + bx
-    mov al, 5 ; how many sectors?
+    mov al, 5; how many sectors?
     mov dl, [BOOT_DISK] ; Disk number
     mov ch, 0x00 ; C (cylinder)
     mov dh, 0x00 ; H (head)
