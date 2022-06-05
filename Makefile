@@ -15,7 +15,7 @@ runnable.flp: boot.bin kernel.bin
 boot.bin: boot.asm
 	nasm -f bin $^ -o $@
 
-kernel.bin: ExtendedProgram.o kernel.o
+kernel.bin: ExtendedProgram.o kernel.o io.o
 	$(LD) -T"link.ld"
 
 ExtendedProgram.o: ExtendedProgram.asm
@@ -24,6 +24,8 @@ ExtendedProgram.o: ExtendedProgram.asm
 kernel.o: kernel.cpp
 	$(CC) -Ttext 0x800 -ffreestanding -mno-red-zone -m64 -c $^ -o $@
 
+io.o: io.cpp
+	$(CC) -Ttext 0x800 -ffreestanding -mno-red-zone -m64 -c $^ -o $@
 
 clean:
 	rm -f *.bin *.flp *.o *.tmp

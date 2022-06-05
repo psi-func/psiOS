@@ -1,6 +1,8 @@
+#include "io.hpp"
+
 extern "C" void _start()
 {
-    int *ptr = (int *)0xb8000;
-    *ptr = 0x50505050;
+    set_cursor_position(coords_to_position(12, 18));
+    kprint("Hello world!\n");
     return;
 }
