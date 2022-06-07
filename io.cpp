@@ -1,6 +1,7 @@
 #include "io.hpp"
 
 static u16 CursorPosition = 0;
+char hexToStringOutput[128];
 
 static void outb(u16 port, u8 value) {
     asm volatile ("outb %0, %1" 
@@ -35,7 +36,7 @@ u16 coords_to_position(u8 x, u8 y) {
     return position;
 }
 
-void kprint(const char* str) {
+void kprint(const char* str, u8 color) {
     auto char_ptr = (u8*)str;
     u16 index = CursorPosition;
     while (*char_ptr) {
@@ -46,10 +47,23 @@ void kprint(const char* str) {
                 break;
             default:
                 *(VGA_MEMORY + index * 2) = *char_ptr;
+                *(VGA_MEMORY + index * 2 + 1) = color;
                 ++index;
 
         }
         ++char_ptr;
     }
     set_cursor_position(index);
+}
+
+void clear_screen(u64 clear_color) {
+    u64 value = 0;
+    value += clear_color << 8;
+    value += clear_color << 24;
+    value += clear_color << 40;
+    value += clear_color << 56;
+    for (u64* i = (u64*)VGA_MEMORY; i < (u64*)(VGA_MEMORY + 4000); ++i) {
+        *i = value;
+    }
+
 }
