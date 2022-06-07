@@ -7,6 +7,7 @@ INPUT
     ExtendedProgram.o
     kernel.o
     io.o
+    Binaries.o
 )
 
 OUTPUT
