@@ -1,5 +1,5 @@
 #include "io.hpp"
-
+#include "IDT.hpp"
 
 extern const char Test[];
 
@@ -12,5 +12,8 @@ extern "C" void _start()
     set_cursor_position(coords_to_position(0, 0));
     kprint(Test, BACKGROUND_BLACK | FOREGROUND_LIGHTGREEN);
     kprint("psiFunction@PC: ", BACKGROUND_BLACK | FOREGROUND_LIGHTGREEN);
+    
+    initialize_idt();
+
     return;
 }

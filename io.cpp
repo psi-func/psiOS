@@ -1,16 +1,17 @@
 #include "io.hpp"
 
 static u16 CursorPosition = 0;
+
 char hexToStringOutput[128];
 
-static void outb(u16 port, u8 value) {
+void outb(u16 port, u8 value) {
     asm volatile ("outb %0, %1" 
     :
     : "a"(value), "Nd"(port)
     );
 }
 
-static u8 inb(u16 port) {
+u8 inb(u16 port) {
     u8 returnval;
     asm volatile ("inb %1, %0" 
     : "=a"(returnval)

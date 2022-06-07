@@ -7,6 +7,7 @@ INPUT
     ExtendedProgram.o
     kernel.o
     io.o
+    IDT.o
     Binaries.o
 )
 
@@ -22,6 +23,12 @@ SECTIONS
     .text : ALIGN(0x1000) 
     {
         *(.text)
+    }
+
+    .idt BLOCK(0x1000) : ALIGN(0x1000)
+    {
+        _idt = .;
+        . = . + 0x1000;
     }
 
     .data : ALIGN(0x1000)

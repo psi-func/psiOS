@@ -43,6 +43,10 @@ constexpr u8 BACKGROUND_BLINKINGMAGENTA = 0xD0;
 constexpr u8 BACKGROUND_BLINKINGYELLOW = 0xE0;
 constexpr u8 BACKGROUND_BLINKINGWHITE = 0xF0;
 
+u8 inb(u16 port);
+
+void outb(u16 port, u8 value);
+
 void set_cursor_position(u16 position);
 
 u16 coords_to_position(u8 x, u8 y);
