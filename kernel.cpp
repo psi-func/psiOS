@@ -1,11 +1,16 @@
 #include "vga.hpp"
 #include "IDT.hpp"
 #include "generic_io.h"
+#include "KeyboardScanCode.h"
 
 extern const char Test[];
 
 extern "C" void isr1_handler() {
-    print_screen(to_hex_string(inb(0x60)));
+    u8 scancode = inb(0x60);
+    if (scancode < sizeof(ScanCodeTable)/ sizeof(ScanCodeTable[0])) {
+        print_char(ScanCodeTable[scancode]);
+    }
+    
     outb(0x20, 0x20);
     outb(0xa0, 0x20);
 }

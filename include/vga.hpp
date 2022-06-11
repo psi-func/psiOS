@@ -49,6 +49,8 @@ u16 coords_to_position(u8 x, u8 y);
 
 void print_screen(const char* str, u8 color = BACKGROUND_BLACK | FOREGROUND_WHITE);
 
+void print_char(char chr,  u8 color = BACKGROUND_BLACK | FOREGROUND_WHITE);
+
 void clear_screen(u64 clear_color = BACKGROUND_BLACK | FOREGROUND_WHITE);
 
 template<typename T>

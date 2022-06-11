@@ -42,6 +42,14 @@ void print_screen(const char* str, u8 color) {
     set_cursor_position(index);
 }
 
+void print_char(char chr,  u8 color) {
+    *(VGA_MEMORY + CursorPosition * 2) = chr;
+    *(VGA_MEMORY + CursorPosition * 2 + 1) = color;
+
+    set_cursor_position(CursorPosition + 1);
+}
+
+
 void clear_screen(u64 clear_color) {
     u64 value = 0;
     value += clear_color << 8;

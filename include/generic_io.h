@@ -19,4 +19,8 @@ u8 inline inb(u16 port) {
     return returnval;
 }
 
+void inline io_wait() {
+    outb(0x80, 0);
+} 
+
 #endif

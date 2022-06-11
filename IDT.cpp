@@ -1,4 +1,5 @@
 #include "IDT.hpp"
+#include "PIC.h"
 #include "generic_io.h"
 
 extern IDT64_entry _idt[IDT_MAX_ENTRIES];
@@ -16,7 +17,9 @@ void initialize_idt() {
         _idt[t].selector = 0x8;
     }
 
-    outb(0x21, 0xfd);
+    PIC_remap(0u, 8u);
+
+    outb(0x21, 0xfd); // set masks
     outb(0xa1, 0xff);
     LoadIDT();
 }
