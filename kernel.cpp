@@ -5,9 +5,10 @@
 
 extern const char Test[];
 
-void KeyboardHandler(u8 scanCode, u8 chr) {
+void StandardKeyboardHandler(u8 scanCode, u8 chr) {
     static bool leftShiftPressed = false;
     static bool rightShiftPressed = false;
+
     if (chr != 0) {
         switch (leftShiftPressed | rightShiftPressed) {
             case true:
@@ -44,8 +45,34 @@ void KeyboardHandler(u8 scanCode, u8 chr) {
                 break;
         }
     }
+}
 
+void KeyboardHandler0xE0(u8 scanCode) {
+    switch (scanCode) {
+        case 0x50:
+            set_cursor_position(CursorPosition + VGA_WIDTH);
+            break;
+        case 0x48:
+            set_cursor_position(CursorPosition - VGA_WIDTH);
+            break;
+        default:
+            break;
+    }
+}
 
+void KeyboardHandler(u8 scanCode, u8 chr) {
+    static u8 lastScanCode;
+    
+    switch(lastScanCode) {
+    case 0xE0:
+        KeyboardHandler0xE0(scanCode);
+        break;
+    default:
+        StandardKeyboardHandler(scanCode, chr);
+        break;
+    }
+    
+    lastScanCode = scanCode;
 }
 
 extern "C" void isr1_handler() {
