@@ -3,33 +3,32 @@ CXX=/home/psifunction/tools/x86_64-elf/bin/x86_64-elf-g++
 LD=/home/psifunction/tools/x86_64-elf/bin/x86_64-elf-ld
 OBJCOPY=/home/psifunction/tools/x86_64-elf/bin/x86_64-elf-objcopy
 
+CFLAGS=-Iinclude
+
 run: clean runnable.flp
 	@chmod +x runnable.flp
-	qemu-system-x86_64 -cdrom runnable.flp
-
-boot: boot.bin
-	qemu-system-x86_64 $^
+	qemu-system-x86_64 runnable.flp
 
 runnable.flp: boot.bin kernel.bin
 	@cat $^ > $@
 
-boot.bin: boot.asm
-	nasm -f bin $^ -o $@
+boot.bin: boot/boot.asm
+	nasm -f bin $^ -i boot -o $@
 
-kernel.bin: ExtendedProgram.o kernel.o io.o Binaries.o IDT.o
-	$(LD) -T"link.ld"
+kernel.bin: ExtendedProgram.o kernel.o vga.o Binaries.o IDT.o
+	$(LD) -T"link.ld" $^
 
-ExtendedProgram.o: ExtendedProgram.asm
-	nasm -f elf64 $^ -o $@
+ExtendedProgram.o: arch/ExtendedProgram.asm
+	nasm -f elf64 $^ -i arch -o $@
 
 kernel.o: kernel.cpp
-	$(CC) -Ttext 0x800 -ffreestanding -mno-red-zone -m64 -c $^ -o $@
+	$(CC) $(CFLAGS) -Ttext 0x800 -ffreestanding -mno-red-zone -m64 -c $^ -o $@
 
-io.o: io.cpp
-	$(CC) -Ttext 0x800 -ffreestanding -mno-red-zone -m64 -c $^ -o $@
+vga.o: vga.cpp
+	$(CC) $(CFLAGS) -Ttext 0x800 -ffreestanding -mno-red-zone -m64 -c $^ -o $@
 
 IDT.o: IDT.cpp
-	$(CC) -Ttext 0x800 -ffreestanding -mno-red-zone -m64 -c $^ -o $@
+	$(CC) $(CFLAGS) -Ttext 0x800 -ffreestanding -mno-red-zone -m64 -c $^ -o $@
 
 Binaries.o: Binaries.asm
 	nasm -f elf64 $^ -o $@

@@ -1,5 +1,5 @@
 #include "IDT.hpp"
-#include "io.hpp"
+#include "generic_io.h"
 
 extern IDT64_entry _idt[IDT_MAX_ENTRIES];
 extern u64 isr1;
@@ -19,10 +19,4 @@ void initialize_idt() {
     outb(0x21, 0xfd);
     outb(0xa1, 0xff);
     LoadIDT();
-}
-
-extern "C" void isr1_handler() {
-    kprint(to_hex_string(inb(0x60)));
-    outb(0x20, 0x20);
-    outb(0xa0, 0x20);
 }

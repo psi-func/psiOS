@@ -1,5 +1,5 @@
-#ifndef KERNEL_TYPES
-#define KERNEL_TYPES
+#ifndef KERNEL_STD_INTEGER_TYPES
+#define KERNEL_STD_INTEGER_TYPES
 
 // #include <cstdint>
 

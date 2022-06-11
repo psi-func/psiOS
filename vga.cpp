@@ -1,24 +1,9 @@
-#include "io.hpp"
+#include "vga.hpp"
+#include "generic_io.h"
 
 static u16 CursorPosition = 0;
 
 char hexToStringOutput[128];
-
-void outb(u16 port, u8 value) {
-    asm volatile ("outb %0, %1" 
-    :
-    : "a"(value), "Nd"(port)
-    );
-}
-
-u8 inb(u16 port) {
-    u8 returnval;
-    asm volatile ("inb %1, %0" 
-    : "=a"(returnval)
-    : "Nd"(port)
-    );
-    return returnval;
-}
 
 void set_cursor_position(u16 position) {
     outb(0x3D4, 0x0F);
@@ -37,7 +22,7 @@ u16 coords_to_position(u8 x, u8 y) {
     return position;
 }
 
-void kprint(const char* str, u8 color) {
+void print_screen(const char* str, u8 color) {
     auto char_ptr = (u8*)str;
     u16 index = CursorPosition;
     while (*char_ptr) {

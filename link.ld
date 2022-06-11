@@ -2,14 +2,14 @@ OUTPUT_FORMAT(binary)
 
 ENTRY (_start)
 
-INPUT
+/* INPUT
 (
     ExtendedProgram.o
     kernel.o
     io.o
     IDT.o
     Binaries.o
-)
+) */
 
 OUTPUT
 (

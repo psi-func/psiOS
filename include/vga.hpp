@@ -1,7 +1,7 @@
-#ifndef KERNEL_IO_HPP
-#define KERNEL_IO_HPP
+#ifndef KERNEL_VGA_HPP
+#define KERNEL_VGA_HPP
 
-#include "ktypes.hpp"
+#include "stdint.h"
 
 #define VGA_MEMORY (u8*)0xb8000
 #define VGA_WIDTH 80
@@ -43,15 +43,11 @@ constexpr u8 BACKGROUND_BLINKINGMAGENTA = 0xD0;
 constexpr u8 BACKGROUND_BLINKINGYELLOW = 0xE0;
 constexpr u8 BACKGROUND_BLINKINGWHITE = 0xF0;
 
-u8 inb(u16 port);
-
-void outb(u16 port, u8 value);
-
 void set_cursor_position(u16 position);
 
 u16 coords_to_position(u8 x, u8 y);
 
-void kprint(const char* str, u8 color = BACKGROUND_BLACK | FOREGROUND_WHITE);
+void print_screen(const char* str, u8 color = BACKGROUND_BLACK | FOREGROUND_WHITE);
 
 void clear_screen(u64 clear_color = BACKGROUND_BLACK | FOREGROUND_WHITE);
 

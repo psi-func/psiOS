@@ -1,7 +1,7 @@
 #ifndef KERNEL_INTERRUPT_DESCRIPTOR_TABLE
 #define KERNEL_INTERRUPT_DESCRIPTOR_TABLE
 
-#include "ktypes.hpp"
+#include "stdint.h"
 
 #define IDT_MAX_ENTRIES 256
 
