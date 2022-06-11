@@ -15,7 +15,7 @@ runnable.flp: boot.bin kernel.bin
 boot.bin: boot/boot.asm
 	nasm -f bin $^ -i boot -o $@
 
-kernel.bin: ExtendedProgram.o kernel.o vga.o Binaries.o IDT.o PIC.o
+kernel.bin: ExtendedProgram.o kernel.o vga.o Binaries.o IDT.o PIC.o KeyboardScanCode.o
 	$(LD) -T"link.ld" $^
 
 ExtendedProgram.o: arch/ExtendedProgram.asm
@@ -33,8 +33,8 @@ IDT.o: IDT.cpp
 PIC.o: PIC.cpp
 	$(CC) $(CFLAGS) -Ttext 0x800 -ffreestanding -mno-red-zone -m64 -c $^ -o $@
 
-# KeyboardScanCode.o: KeyboardScanCode.cpp 
-# 	$(CC) $(CFLAGS) -Ttext 0x800 -ffreestanding -mno-red-zone -m64 -c $^ -o $@
+KeyboardScanCode.o: KeyboardScanCode.cpp 
+	$(CC) $(CFLAGS) -Ttext 0x800 -ffreestanding -mno-red-zone -m64 -c $^ -o $@
 
 Binaries.o: Binaries.asm
 	nasm -f elf64 $^ -o $@

@@ -1,7 +1,7 @@
 #include "vga.hpp"
 #include "generic_io.h"
 
-static u16 CursorPosition = 0;
+u16 CursorPosition = 0;
 
 char hexToStringOutput[128];
 

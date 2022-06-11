@@ -8,6 +8,7 @@
 #define VGA_HEIGHT 25
 
 extern char hexToStringOutput[128];
+extern u16 CursorPosition;
 
 constexpr u8 FOREGROUND_BLACK = 0x00;
 constexpr u8 FOREGROUND_BLUE = 0x01;

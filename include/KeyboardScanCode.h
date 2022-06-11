@@ -1,6 +1,8 @@
 #ifndef KEAYBOARD_SCAN_CODE
 #define KEAYBOARD_SCAN_CODE
 
+#include "stdint.h"
+
 const char ScanCodeTable[] = {
     0, 0, '1', '2',
     '3', '4', '5', '6',
@@ -18,5 +20,17 @@ const char ScanCodeTable[] = {
     '.', '/', 0, '*',
     0, ' '
 };
+
+/**
+ * @brief callback function for keyboard driver
+ * 
+ */
+using keyboard_cb = void(*)(u8 scanCode, u8 chr);
+
+/**
+ * @brief Active slot for keayboard callback
+ * 
+ */
+extern keyboard_cb MainKeyboardHandler;
 
 #endif
