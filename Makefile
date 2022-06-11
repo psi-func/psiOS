@@ -3,14 +3,15 @@ CXX=/home/psifunction/tools/x86_64-elf/bin/x86_64-elf-g++
 LD=/home/psifunction/tools/x86_64-elf/bin/x86_64-elf-ld
 OBJCOPY=/home/psifunction/tools/x86_64-elf/bin/x86_64-elf-objcopy
 
-run: clean runnable.flp 
-	qemu-system-x86_64 runnable.flp
+run: clean runnable.flp
+	@chmod +x runnable.flp
+	qemu-system-x86_64 -cdrom runnable.flp
 
 boot: boot.bin
 	qemu-system-x86_64 $^
 
 runnable.flp: boot.bin kernel.bin
-	cat $^ > $@
+	@cat $^ > $@
 
 boot.bin: boot.asm
 	nasm -f bin $^ -o $@
