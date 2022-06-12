@@ -33,4 +33,13 @@ using keyboard_cb = void(*)(u8 scanCode, u8 chr);
  */
 extern keyboard_cb MainKeyboardHandler;
 
+
+/**
+ * @brief Default keyboard driver
+ * 
+ * @param scanCode scancode from io keyboard memory
+ * @param chr parsed char data from scancode
+ */
+void KeyboardHandler(u8 scanCode, u8 chr);
+
 #endif
