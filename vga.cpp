@@ -3,7 +3,7 @@
 
 u16 CursorPosition = 0;
 
-char hexToStringOutput[128];
+char toStringBuffer[128];
 
 void set_cursor_position(u16 position) {
     outb(0x3D4, 0x0F);

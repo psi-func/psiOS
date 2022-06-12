@@ -20,4 +20,59 @@ using u64 = unsigned long;
 // using u32 = uint32_t;
 // using u64 = uint64_t;
 
+template <typename T, bool B>
+struct integral_constant;
+
+template <>
+struct integral_constant<bool, true> {
+    static const bool value = true; 
+};
+
+template <>
+struct integral_constant<bool, false> {
+    static const bool value = false; 
+};
+
+
+/**
+ * @brief Check if integer type is unsigned or not
+ * 
+ * @tparam I integral type template arg
+ */
+template <typename I>
+struct is_unsigned : integral_constant<bool, I(0) < I(-1) > {};
+
+template <typename I>
+inline constexpr bool is_unsigned_v = is_unsigned<I>::value;
+
+
+/**
+ * @brief template branch enabler
+ * 
+ * @tparam B boolean constexpr condition
+ * @tparam T returnable type if true, if not - substitusion fail (SFINAE)
+ */
+template <bool B, class T = void>
+struct enable_if {};
+
+template <class T>
+struct enable_if<true, T> {
+    using type = T;
+};
+
+template <bool B, typename T = void>
+using enable_if_t = typename enable_if<B, T>::type;
+
+
+template <typename T>
+T abs(T value) {
+    if constexpr (is_unsigned<T>::value) {
+        return value;
+    }
+    else {
+        if (value < 0) return -value;
+        return value;
+    }
+}
+
 #endif

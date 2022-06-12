@@ -7,7 +7,7 @@
 #define VGA_WIDTH 80
 #define VGA_HEIGHT 25
 
-extern char hexToStringOutput[128];
+extern char toStringBuffer[128];
 extern u16 CursorPosition;
 
 constexpr u8 FOREGROUND_BLACK = 0x00;
@@ -62,12 +62,35 @@ const char* to_hex_string(T value) {
     for (u8 i = 0; i < size; ++i) {
         u8* ptr = reinterpret_cast<u8*>(valPtr) + i;
         temp = ((*ptr & 0xF0) >> 4);
-        hexToStringOutput[size - (i * 2 + 1)] = temp + (temp > 9 ? 55 : 48);
+        toStringBuffer[size - (i * 2 + 1)] = temp + (temp > 9 ? 55 : 48);
         temp = (*ptr & 0x0F);
-        hexToStringOutput[size - (i * 2)] = temp + (temp > 9 ? 55 : 48);
+        toStringBuffer[size - (i * 2)] = temp + (temp > 9 ? 55 : 48);
     }
-    hexToStringOutput[size + 1] = 0;
-    return hexToStringOutput;
+    toStringBuffer[size + 1] = 0;
+    return toStringBuffer;
+}
+
+
+template <typename T>
+enable_if_t<true, const char*> to_string(T value) {
+   
+    u8 length = 1;
+    auto tmp = value;
+    while (abs(tmp /= 10)> 0)
+        ++length;
+
+    u8 end = length;
+    if (!is_unsigned_v<T> && value < 0) {
+        toStringBuffer[0] = '-';
+        ++end; 
+    }
+
+    for (u8 i = end - 1; length != 0 ; --i, --length) {
+        toStringBuffer[i] = abs(value % 10) + 48;
+        value /= 10;
+    }
+    toStringBuffer[end] = 0;
+    return toStringBuffer;
 }
 
 #endif
