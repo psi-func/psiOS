@@ -1,7 +1,7 @@
 #ifndef KERNEL_STD_INTEGER_TYPES
 #define KERNEL_STD_INTEGER_TYPES
 
-// #include <cstdint>
+#include "mtp.hpp"
 
 using i8 = signed char;
 using i16 = signed short;
@@ -20,20 +20,6 @@ using u64 = unsigned long;
 // using u32 = uint32_t;
 // using u64 = uint64_t;
 
-template <typename T, bool B>
-struct integral_constant;
-
-template <>
-struct integral_constant<bool, true> {
-    static const bool value = true; 
-};
-
-template <>
-struct integral_constant<bool, false> {
-    static const bool value = false; 
-};
-
-
 /**
  * @brief Check if integer type is unsigned or not
  * 
@@ -45,34 +31,57 @@ struct is_unsigned : integral_constant<bool, I(0) < I(-1) > {};
 template <typename I>
 inline constexpr bool is_unsigned_v = is_unsigned<I>::value;
 
+namespace detail {
+    template <typename T>
+    struct is_integral : integral_constant<bool, false> { };
+    
+    template <>
+    struct is_integral<i8> : integral_constant<bool, true> { };
+    template <>
+    struct is_integral<u8> : integral_constant<bool, true> { };
+    
+    template <>
+    struct is_integral<i16> : integral_constant<bool, true> { };
+    template <>
+    struct is_integral<u16> : integral_constant<bool, true> { };
+    
+    template <>
+    struct is_integral<i32> : integral_constant<bool, true> { };
+    template <>
+    struct is_integral<u32> : integral_constant<bool, true> { };
+    
+    template <>
+    struct is_integral<i64> : integral_constant<bool, true> { };
+    template <>
+    struct is_integral<u64> : integral_constant<bool, true> { };
 
-/**
- * @brief template branch enabler
- * 
- * @tparam B boolean constexpr condition
- * @tparam T returnable type if true, if not - substitusion fail (SFINAE)
- */
-template <bool B, class T = void>
-struct enable_if {};
-
-template <class T>
-struct enable_if<true, T> {
-    using type = T;
-};
-
-template <bool B, typename T = void>
-using enable_if_t = typename enable_if<B, T>::type;
-
+}
 
 template <typename T>
-T abs(T value) {
-    if constexpr (is_unsigned<T>::value) {
-        return value;
-    }
-    else {
-        if (value < 0) return -value;
-        return value;
-    }
+struct is_integral : detail::is_integral<remove_cv_t<T>> { };
+
+template <typename T>
+inline constexpr bool is_integral_v = is_integral<T>::value;
+
+namespace detail {
+
+    template <typename T>
+    struct is_floating_point : integral_constant<bool, false> {};
+    
+    template <>
+    struct is_floating_point<float> : integral_constant<bool, true> { };
+    template <>
+    struct is_floating_point<double> : integral_constant<bool, true> { };
+    template <>
+    struct is_floating_point<long double> : integral_constant<bool, true> { };
+
 }
+
+template <typename T>
+struct is_floating_point : detail::is_floating_point<remove_cv_t<T>> { };
+
+template <typename T>
+inline constexpr bool is_floating_point_v = is_floating_point<T>::value;
+
 
 #endif

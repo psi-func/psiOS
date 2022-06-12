@@ -2,6 +2,7 @@
 #define KERNEL_VGA_HPP
 
 #include "stdint.h"
+#include "math.h"
 
 #define VGA_MEMORY (u8*)0xb8000
 #define VGA_WIDTH 80
@@ -72,7 +73,7 @@ const char* to_hex_string(T value) {
 
 
 template <typename T>
-enable_if_t<true, const char*> to_string(T value) {
+enable_if_t<is_integral_v<T>, const char*> to_string(T value) {
    
     u8 length = 1;
     auto tmp = value;
@@ -90,6 +91,15 @@ enable_if_t<true, const char*> to_string(T value) {
         value /= 10;
     }
     toStringBuffer[end] = 0;
+    return toStringBuffer;
+}
+
+template <typename T>
+enable_if_t<is_floating_point_v<T>, const char*> to_string(T value) {
+    char simple_text[] = "simple test for floats";
+    for(int i = 0; i < sizeof(simple_text)/sizeof(simple_text[0]); ++i) {
+        toStringBuffer[i] = simple_text[i];
+    }
     return toStringBuffer;
 }
 
