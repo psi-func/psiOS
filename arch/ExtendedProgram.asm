@@ -70,8 +70,21 @@ Start64Bit:
     mov rax, 0x1f201f201f201f20
     mov ecx, 500
     rep stosq
+
+    call ActivateSSE
     call _start
     jmp $
 
+
+ActivateSSE:
+    mov rax, cr0
+    and ax, 0xFFFB ; Clear CR0.EM
+    or ax, 0x02 ; Set CR0.MP
+    mov cr0, rax
+    
+    mov rax, cr4
+    or ax, 3 << 9 ; Set CR4.OSXSR CR4.OSXMMEXCPT
+    mov cr4, rax
+    ret
 
 times 2048-($-$$) db 0

@@ -15,7 +15,9 @@ extern "C" void _start()
     print_screen(Test, BACKGROUND_BLACK | FOREGROUND_LIGHTGREEN);
     print_screen("psiFunction@PC: ", BACKGROUND_BLACK | FOREGROUND_LIGHTGREEN);
     
-    print_screen(to_string(-1234));
+    float testFloat = 3.14f;
+
+    print_screen(to_string((int)testFloat));
 
     // setup driver
     MainKeyboardHandler = KeyboardHandler;
