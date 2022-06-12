@@ -11,10 +11,10 @@ ENTRY (_start)
     Binaries.o
 ) */
 
-OUTPUT
+/* OUTPUT
 (
     kernel.bin
-)
+) */
 
 SECTIONS
 {

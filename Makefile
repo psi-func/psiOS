@@ -16,7 +16,7 @@ boot.bin: boot/boot.asm
 	nasm -f bin $^ -i boot -o $@
 
 kernel.bin: ExtendedProgram.o kernel.o vga.o Binaries.o IDT.o PIC.o KeyboardScanCode.o
-	$(LD) -T"link.ld" $^
+	$(LD) -T"link.ld" $^ -o $@
 
 ExtendedProgram.o: arch/ExtendedProgram.asm
 	nasm -f elf64 $^ -i arch -o $@
