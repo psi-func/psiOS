@@ -2,20 +2,6 @@ OUTPUT_FORMAT(binary)
 
 ENTRY (_start)
 
-/* INPUT
-(
-    ExtendedProgram.o
-    kernel.o
-    io.o
-    IDT.o
-    Binaries.o
-) */
-
-/* OUTPUT
-(
-    kernel.bin
-) */
-
 SECTIONS
 {
     . = 0x8000;
