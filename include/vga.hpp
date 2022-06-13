@@ -87,7 +87,7 @@ enable_if_t<is_integral_v<T>, const char*> to_string(T value) {
     }
 
     for (u8 i = end - 1; length != 0 ; --i, --length) {
-        toStringBuffer[i] = abs(value % 10) + 48;
+        toStringBuffer[i] = abs(value % 10) + '0';
         value /= 10;
     }
     toStringBuffer[end] = 0;
@@ -95,11 +95,29 @@ enable_if_t<is_integral_v<T>, const char*> to_string(T value) {
 }
 
 template <typename T>
-enable_if_t<is_floating_point_v<T>, const char*> to_string(T value) {
-    char simple_text[] = "simple test for floats";
-    for(int i = 0; i < sizeof(simple_text)/sizeof(simple_text[0]); ++i) {
-        toStringBuffer[i] = simple_text[i];
+enable_if_t<is_floating_point_v<T>, const char*> to_string(T value, u8 decimalPlaces) {
+    // char simple_text[] = "simple test for floats";
+    // for(int i = 0; i < sizeof(simple_text)/sizeof(simple_text[0]); ++i) {
+    //     toStringBuffer[i] = simple_text[i];
+    // }
+    auto ptr = const_cast<char*>(to_string(static_cast<int>(value)));
+
+    while (*ptr != '\0') {
+        ++ptr;
     }
+
+    *ptr = '.';
+    ++ptr;
+
+    value = value > 0 ? value : (-1) * value;
+    float rem = value - static_cast<int>(value);
+    for (u8 i = 0; i < decimalPlaces; ++i, ++ptr) {
+        rem *= 10;
+        *ptr = static_cast<int>(rem) +'0';
+        rem -= static_cast<int>(rem);
+    }
+    *ptr = 0;
+
     return toStringBuffer;
 }
 

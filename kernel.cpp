@@ -15,9 +15,9 @@ extern "C" void _start()
     print_screen(Test, BACKGROUND_BLACK | FOREGROUND_LIGHTGREEN);
     print_screen("psiFunction@PC: ", BACKGROUND_BLACK | FOREGROUND_LIGHTGREEN);
     
-    const volatile float testFloat = 3.14f;
+    const volatile float testFloat = -672.938f;
 
-    print_screen(to_string(testFloat));
+    print_screen(to_string(testFloat, 5));
 
     // setup driver
     MainKeyboardHandler = KeyboardHandler;
